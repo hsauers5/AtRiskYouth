@@ -1,4 +1,5 @@
 from Student import Student
+import Classifier
 import csv
 import random
 import math
@@ -41,6 +42,8 @@ def analyze_data():
 
   print("STUDENTS: " + str(num_students) + ", USERS: " + str(opiate_users))
   print("AVG SCORE: " + str(avg_opiate_score/num_students) + ", OF USERS: " + str(avg_user_score/opiate_users))
+
+  Classifier.knn_controller(students)
 
 def main():
   read_data()
