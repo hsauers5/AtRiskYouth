@@ -1,3 +1,4 @@
+from Scoring import Scoring
 # data structure for survey answers
 class Student:
 
@@ -115,6 +116,33 @@ class Student:
   opiate_use = 1
 
   # used for ML algos. "actual" result to test for is first in array
+  def get_risk_factors(self):
+    return [
+      self.opiate_use,
+      self.opiate_risk_score,
+      self.physical_fights,
+      self.tried_cigs,
+      self.smokes_cigs,
+      self.cigs_per_day,
+      self.days_vaping,
+      self.cigar_use,
+      self.quit_tobacco_attempt,
+      self.days_drinking,
+      self.current_drinking,
+      self.binge_drinking,
+      self.max_drinks,
+      self.tried_marijuana,
+      self.current_marijuana,
+      self.sex_partners_total,
+      self.sex_partners_recent,
+      self.condom_use,
+      self.drive_marijuana,
+      self.hallucinogens_ever,
+      self.ever_injected
+    ]
+
+
+
   def get_core_no_opiates(self):
     return [self.opiate_use,
             self.opiate_risk_score,
@@ -469,9 +497,6 @@ class Student:
     
     if self.fruit_juice_drinking >= 3 and self.ate_other_vegetable >= 4 and self.dentist_visit <= 2:
       self.parental_care = 2
-
-    if self.ever_heroin > 1 or self.ever_opioids > 2:
-      self.opiate_use = 2
     
     if self.drive_marijuana > 2:
       self.risk_score += 1
@@ -481,10 +506,10 @@ class Student:
       self.risk_score += 1
     if self.binge_drinking >= 4:
       self.risk_score += 1
-      self.opiate_risk_score += 1
     if self.drive_drunk > 2:
       self.risk_score += 1
 
+    """
     if self.current_marijuana >= 3:
       self.opiate_risk_score += 1
     if self.smokes_cigs >= 3:
@@ -495,6 +520,14 @@ class Student:
       self.opiate_risk_score += 1
     if self.ever_injected >= 2:
       self.opiate_risk_score += 1
+    """
+
+    # actual opiate use, for AI training
+    if self.ever_heroin > 1 or self.ever_opioids > 2:
+      self.opiate_use = 2
+
+    # opiate risk score, by statistics
+    self.opiate_risk_score = Scoring.get_opiate_risk_score(self)
 
     """
     for i in range (0, len(csv_row)):
